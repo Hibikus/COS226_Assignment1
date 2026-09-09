@@ -6,13 +6,13 @@ public class CLHLock implements Lock {
         volatile boolean locked = false;
     }
 
-    AtomicReference<QNode> tail;
-    ThreadLocal<QNode> myPred;
-    ThreadLocal<QNode> myNode;
+    private final AtomicReference<QNode> tail;
+    private final ThreadLocal<QNode> myPred;
+    private final ThreadLocal<QNode> myNode;
 
     public CLHLock() {
 
-        tail = new AtomicReference<QNode>(null);
+        tail = new AtomicReference<QNode>(new QNode());
 
         myNode = new ThreadLocal<QNode>() {
             protected QNode initialValue() {

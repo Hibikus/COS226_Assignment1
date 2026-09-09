@@ -3,11 +3,11 @@ import java.util.concurrent.atomic.AtomicReference;
 public class MCSLock implements Lock {
     class QNode {
         volatile boolean locked = false;
-        QNode next = null;
+        volatile QNode next = null;
     }
 
-    AtomicReference<QNode> tail;
-    ThreadLocal<QNode> myNode;
+    private final AtomicReference<QNode> tail;
+    private final ThreadLocal<QNode> myNode;
 
     public MCSLock() {
         tail = new AtomicReference<QNode>(null);
@@ -18,16 +18,19 @@ public class MCSLock implements Lock {
         };
     }
 
+    @Override
     public void lock() {
         QNode qnode = myNode.get();
+        qnode.locked = true;
+        qnode.next = null;
         QNode pred = tail.getAndSet(qnode);
         if (pred != null) {
-            qnode.locked = true;
             pred.next = qnode;
             while (qnode.locked){} //wait until pred gives up lock
         }
     }
 
+    @Override
     public void unlock() {
         QNode qnode = myNode.get();
         if (qnode.next == null) {
