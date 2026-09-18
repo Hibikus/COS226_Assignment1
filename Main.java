@@ -3,7 +3,7 @@ public class Main
     public static void main(String[] args) throws InterruptedException
     {
         String lockChoice   = args.length > 0 ? args[0].toLowerCase() : "all";
-        int numberOfThreads = args.length > 1 ? Integer.parseInt(args[1]) : 4;
+        int numberOfThreads = args.length > 1 ? Integer.parseInt(args[1]) : 16;
         int iterations      = args.length > 2 ? Integer.parseInt(args[2]) : 200;
 
         String[] locks = lockChoice.equals("all")
@@ -31,17 +31,17 @@ public class Main
         }
     }
 }
-public class Main 
-{
+// public class Main 
+// {
 
-    public static void main(String[] args) throws InterruptedException 
-    {
-        int numberOfThreads = 2; /*Change*/
-        int iterations = 200;
+//     public static void main(String[] args) throws InterruptedException 
+//     {
+//         int numberOfThreads = 2; /*Change*/
+//         int iterations = 200;
 
-        Auction auction =new Auction(AuctionUtils.generateItemName());
-        Lock lock = new TTASLock(); /*Add your lock here*/
-        Runner runner = new Runner(numberOfThreads,iterations,auction,lock);
-        runner.run();
-    }
-}
+//         Auction auction =new Auction(AuctionUtils.generateItemName());
+//         Lock lock = new TTASLock(); /*Add your lock here*/
+//         Runner runner = new Runner(numberOfThreads,iterations,auction,lock);
+//         runner.run();
+//     }
+// }
